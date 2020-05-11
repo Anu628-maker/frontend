@@ -9,16 +9,16 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Functions from "./componets/Center/Functions";
 import AdminNavbar from "./componets/Center/AdminNavbar";
-
+import AdminFunction from "./componets/MainAdmin/AdminFunction"
 import All from "./componets/publics/All";
 // import Alert from "./componets/publics/Alert";
 import UFunctions from "./componets/Company/UFunctions";
 import CompanyNavbar from "./componets/Company/CompanyNavbar";
-import MFunctions from "./componets/MainAdmin/MFunctions";
+// import MFunctions from "./componets/MainAdmin/AdminFunction";
 import MainNavbar from "./componets/MainAdmin/MainNavbar";
 // import UserHome from "./componets/UserAdmin/UserHome";
 
-
+import PrivateRoute from "./componets/utils/PrivateRoute"
 class App extends React.Component {
   //  state = {
 
@@ -55,9 +55,10 @@ class App extends React.Component {
           <MainNavbar />
           
           <Switch>
-            <Route path={"/Center/"} component={Functions} />
-            <Route path={"/Company"} component={UFunctions} />
-            <Route path={"/main/"} component={MFunctions} />
+            <PrivateRoute role="center" path={"/Center/"} component={Functions} />
+            <PrivateRoute role="employer" path={"/Company"} component={UFunctions} />
+            <PrivateRoute role="admin" path={"/admin/"} component={AdminFunction} />
+            {/* <Route path={"/main/"} component={MFunctions} /> */}
             {/* <Route exact path={"/admin"} component={UserHome} /> */}
 
             {/* <Route exact path={"/admin"} component={UserHome} /> */}

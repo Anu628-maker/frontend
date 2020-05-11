@@ -1,15 +1,67 @@
 import React, { Component } from "react";
 import logo from "../../assets/logo.png";
 // import AdminHome from "./AdminHome";
-
+import { Link } from "react-router-dom";
+import axios from "axios";
 export default class Navbar extends Component {
-  state = {
-    loggedIn: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      type: "",
+      user: "",
+      isAuth: null,
+    };
+    this.onLogout = this.onLogout.bind(this);
+  }
+  componentDidMount = async () => {
+    // getting user
+    this.setState({
+      isAuth: sessionStorage.getItem("isAuth"),
+    });
+    // getting user
+    if (this.state.isAuth) {
+    const token = sessionStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.get(`http://localhost:5000/api/v1/auth/me`, config);
+    this.setState({
+      user: res.data.data,
+    });
+  }
+    // console.log(this.state.user.name);
+  };
+  onLogout = async (e) => {
+    e.preventDefault();
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      await axios.get("http://localhost:5000/api/v1/auth/logout", config);
+      sessionStorage.removeItem("token", "isAuth");
+      alert("Logged Out");
+      this.setState({
+        isAuth: false,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+    sessionStorage.clear();
   };
   render() {
     // let cart;
     let profile, logout;
-    if (this.state.loggedIn === true) {
+    if (this.state.isAuth === "true") {
       profile = (
         <ul className="navbar-nav">
           {" "}
@@ -58,22 +110,32 @@ export default class Navbar extends Component {
                 {/* <a className="dropdown-item" href="/farmer/Prof">
                   Profile
                 </a> */}
-                <a className="dropdown-item" href="/vendor/ProfileEdit">
+                {/* <a className="dropdown-item" href="/vendor/ProfileEdit">
                   Profile
                 </a>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="#"> */}
+
+
+                <a
+                type="submit"
+                className="dropdown-item"
+                poiter="cursor"
+                onClick={this.onLogout}
+                >
                   <span
                 
                     style={{ color: "#f2f2f3  " }}
                     aria-hidden="true"
                   ></span>
                   Log Out
-                </a>
+                  </a>
+                {/* </a> */}
               </div>
             </div>
           </li>
         </ul>
       );
+   
       // logout = (
       //   <a
       //     type="b                                                       utton"
@@ -89,22 +151,22 @@ export default class Navbar extends Component {
       //   </a>
       // );
     } else {
-      profile = (
-        <a
-          type="button"
-          className="btn  navbar-toggle-box-collapse d-none d-md-block "
-          href="vendor/Login/vendor"
-          title="Profile"
-        >
-          <span
-            className="fa fa-user fa-2x"
-            style={{ color: "#f2f2f3  " }}
-            aria-hidden="true"
-          ></span>
+      // profile = (
+      //   <a
+      //     type="button"
+      //     className="btn  navbar-toggle-box-collapse d-none d-md-block "
+      //     href="vendor/Login/vendor"
+      //     title="Profile"
+      //   >
+      //     <span
+      //       className="fa fa-user fa-2x"
+      //       style={{ color: "#f2f2f3  " }}
+      //       aria-hidden="true"
+      //     ></span>
 
          
-        </a>
-      );
+      //   </a>
+      // );
     }
     return (
       <nav className="navbar navbar-default navbar-expand-md fixed-top navbar-trans navf">
@@ -160,12 +222,23 @@ export default class Navbar extends Component {
                  Center
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="/Center/addDonors">
+                  <a className="dropdown-item" href="/Center/addcenter">
                     Add Job
                   </a>
-                  <a className="dropdown-item" href="/Center/ShowDonors">
-                    Show Job
-                  </a>
+                  <Link
+                  className="dropdown-item"
+                  to={{
+                    pathname:"/Center/Showcenter",
+                    state:{
+                      user:this.state.user._id,
+                    },
+                  }}
+                  >
+                       Show Job
+                  </Link>
+                  
+                  
+                  
                 </div>
               </li>
             </ul>

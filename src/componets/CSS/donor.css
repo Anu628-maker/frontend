@@ -7,10 +7,12 @@
 }
 
 .section-bg {
-  background: #00b09b;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to top, #96c93d, #00b09b);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to top, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #1f4037;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #99f2c8, #1f4037);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #99f2c8, #1f4037); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+
+  
   background-size: 400% 400%;
   animation: gradient 25s ease infinite;
 }
@@ -228,12 +230,10 @@ textarea {
 
 .card-6 {
   background: transparent;
-  background-color: cadetblue;
 }
 
 .card-6 .card-heading {
   background: transparent;
-  
 }
 
 .card-6 .card-body {
@@ -250,6 +250,7 @@ textarea {
   -moz-border-radius-topright: 3px;
   border-top-right-radius: 3px;
 }
+
 
 .card-6 .card-body:before {
   bottom: 100%;

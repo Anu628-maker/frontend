@@ -1,15 +1,67 @@
 import React, { Component } from "react";
 import logo from "../../assets/logo.png";
 // import CompanyHome from "./CompanyHome";
-
+import axios from "axios";
 export default class Navbar extends Component {
-  state = {
-    loggedIn: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      type: "",
+      user: "",
+      isAuth: null,
+    };
+    this.onLogout = this.onLogout.bind(this);
+  }
+  componentDidMount = async () => {
+    this.setState({
+      isAuth: sessionStorage.getItem("isAuth"),
+    });
+    // getting user
+    if (this.state.isAuth) {
+      const token = sessionStorage.getItem("token");
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.get(
+        `http://localhost:5000/api/v1/auth/me`,
+        config
+      );
+      this.setState({
+        user: res.data.data,
+      });
+    }
+  };
+  onLogout = async (e) => {
+    e.preventDefault();
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      await axios.get("http://localhost:5000/api/v1/auth/logout", config);
+      sessionStorage.removeItem("token", "isAuth");
+      alert("Logged Out");
+      this.setState({
+        isAuth: false,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+    sessionStorage.clear();
   };
   render() {
     // let cart;
     let profile, logout;
-    if (this.state.loggedIn === true) {
+    if (this.state.isAuth === "true") {
       profile = (
         <ul className="navbar-nav">
           {" "}
@@ -44,7 +96,13 @@ export default class Navbar extends Component {
                   Profile
                 </a> */}
            
-                <a className="dropdown-item" href="#">
+                
+
+                  <a type="submit"
+                className="dropdown-item"
+                poiter="cursor"
+                onClick={this.onLogout}
+              >
                   <span
                 
                     style={{ color: "#f2f2f3  " }}
@@ -52,6 +110,7 @@ export default class Navbar extends Component {
                   ></span>
                   Log Out
                 </a>
+                
               </div>
             </div>
           </li>

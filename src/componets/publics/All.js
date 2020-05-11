@@ -23,6 +23,7 @@ export default class All extends Component {
   state = {
     users: [],
     products: [],
+    category: [],
   };
   getProducts = async () => {
     // const res = await axios.get(`https://api/v1/products`);
@@ -31,6 +32,7 @@ export default class All extends Component {
     //   user: res.data,
     // });
   };
+  
   render() {
     return (
       <Router>
@@ -40,7 +42,7 @@ export default class All extends Component {
             {/* <Route exact path={"/Login/:type"} component={Login} /> */}
             {/* <Route path={"/farmer/fsignup"} component={fRegistration} /> */}
             <Route path={"/reset"} component={Forgotpasswrd} />
-            <Route path={"/signup/"} component={Registration} />
+            <Route path={"/signup/:role"} component={Registration} />
             <Route path={"/fsignup"} component={fRegistration} />
           </Switch>
           <Navbar />

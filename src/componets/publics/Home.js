@@ -147,7 +147,7 @@ class Home extends Component {
                   LaboureNET is a web platform for connecting different Blue-collar labour to the industries
                   </p>
                   <p>If any suggestions or tips let us know</p>
-                  <ul className="social-link">
+                  {/* <ul className="social-link">
                   <li >
                     <a href="(0)">
                       <i className="fa fa-twitter "></i>
@@ -170,7 +170,7 @@ class Home extends Component {
                   </li>
                
                 
-                </ul>
+                </ul> */}
                 </div>
                
               </div>
